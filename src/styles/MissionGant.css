@@ -1,0 +1,5 @@
+@import '@bryntum/gantt/gantt.stockholm.css';
+
+div#root {
+    height: 40vh;
+}
