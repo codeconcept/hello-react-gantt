@@ -1,19 +1,34 @@
 import { BryntumGantt } from "@bryntum/gantt-react";
-import '../styles/MissionGant.css';
+import config from "./MissionGanttConfig";
+import "../styles/MissionGant.css";
 
-
-function MissionGant({ config }) {
-
-  const handleChange = (data) => {
-    console.log('handleChange', data);
+function MissionGant() {
+  const handleChange = (evt) => {
+    console.log(
+      `MissionGant | handleChange: ${evt.action} - ${evt.type}`,
+      evt
+    );
   };
 
-  const handleBeforeEdit = (data) => {
-    console.log('handleBeforeEdit', data);
-  }
+  const handleTaskDrop = (data) => {
+    console.log(
+      `MissionGant | handleTaskDrop: ${data.action} - ${data.type}`,
+      data
+    );
+  };
+
+  const handleTaskClick = (evt) => {
+    console.log(`MissionGant | handleTaskClick: "${evt.type}" event`);
+    console.log(`Orginal data ${evt.taskRecord}`);
+  };
 
   return (
-    <BryntumGantt { ...config } onDataChange={(evt) => handleChange(evt)} onBeforeCellEditStart={handleBeforeEdit} />
+    <BryntumGantt
+      {...config}
+      onDataChange={handleChange}
+      onAfterTaskDrop={handleTaskDrop}
+      onTaskClick={handleTaskClick}
+    />
   );
 }
 
