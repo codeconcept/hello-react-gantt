@@ -9,6 +9,9 @@ export function set(data) {
 
 export function get() {
     const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if(data === null) {
+        return null;
+    }
     const tasks = JSON.parse(data);
     return tasks;
 }

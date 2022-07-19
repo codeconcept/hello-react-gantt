@@ -1,12 +1,10 @@
 const ganttConfig = {
-  project: {
-    transport: {
-      load: {
-        url: "data/mission.json",
-      },
-    },
-    autoLoad: true,
-  },
+  columns : [
+    { type : 'wbs' },
+    { type : 'name', width : 250 },
+    { type : 'startdate' },
+    { type : 'duration' },
+  ],
   listeners: {
     // catchAll: function (e) {
     //   console.log("listeners | catchAll", e.type, e);
@@ -22,12 +20,6 @@ const ganttConfig = {
     //   console.log("listeners | dataChange", data);
     // },
   },
-  columns : [
-    { type : 'wbs' },
-    { type : 'name', width : 250 },
-    { type : 'startdate' },
-    { type : 'duration' },
-  ]
 };
 
 export default ganttConfig;
