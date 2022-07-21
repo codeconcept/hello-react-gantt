@@ -10,7 +10,9 @@ const ganttConfig = {
     console.log('taskRecord.name', taskRecord.name);
     if (taskRecord.name.toLocaleLowerCase().startsWith("important")) {
       // make important task red
-      renderData.style = "background-color: red; color: pink";
+      renderData.style = "background-color: red;";
+      // display the name in the task only if the task important
+      return taskRecord.name.split('important ')[1];
     }
   },
   features: {
