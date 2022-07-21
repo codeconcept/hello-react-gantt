@@ -1,11 +1,3 @@
-function displayAsImportant() {
-  return {
-    cls: "hightlight",
-    iconCls: "b-fa b-fa-beer",
-    name: "Post-task celebration beer",
-  };
-}
-
 const ganttConfig = {
   columns: [
     { type: "wbs" },
