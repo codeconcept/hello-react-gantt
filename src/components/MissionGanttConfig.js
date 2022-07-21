@@ -1,3 +1,11 @@
+function displayAsImportant() {
+  return {
+    cls: "hightlight",
+    iconCls: "b-fa b-fa-beer",
+    name: "Post-task celebration beer",
+  };
+}
+
 const ganttConfig = {
   columns: [
     { type: "wbs" },
@@ -5,6 +13,14 @@ const ganttConfig = {
     { type: "startdate" },
     { type: "duration" },
   ],
+  taskRenderer({ taskRecord, renderData }) {
+    console.log("taskRenderer", { taskRecord, renderData });
+    console.log('taskRecord.name', taskRecord.name);
+    if (taskRecord.name.toLocaleLowerCase().startsWith("important")) {
+      // make important task red
+      renderData.style = "background-color: red; color: pink";
+    }
+  },
   features: {
     filter: true,
   },
