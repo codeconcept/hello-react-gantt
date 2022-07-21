@@ -1,17 +1,37 @@
-const LOCAL_STORAGE_KEY = "by-mission-tp-mars"
+const LOCAL_STORAGE_KEY_TASKS = "by-mission-to-mars-tasks";
+const LOCAL_STORAGE_KEY_DEPS = "by-mission-to-mars-deps";
 
-export function set(data) {
-    if(!data) {
-        return;
-    }
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
-}
+const setTasks = (data) => {
+  if (!data) {
+    return;
+  }
+  localStorage.setItem(LOCAL_STORAGE_KEY_TASKS, JSON.stringify(data));
+};
 
-export function get() {
-    const data = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if(data === null) {
-        return null;
-    }
-    const tasks = JSON.parse(data);
-    return tasks;
-}
+const getTasks = () => {
+  const data = localStorage.getItem(LOCAL_STORAGE_KEY_TASKS);
+  if (data === null) {
+    return null;
+  }
+  const tasks = JSON.parse(data);
+  return tasks;
+};
+
+const setDependencies = (data) => {
+  if (!data) {
+    return;
+  }
+  localStorage.setItem(LOCAL_STORAGE_KEY_DEPS, JSON.stringify(data));
+};
+
+const getDependencies = () => {
+  const data = localStorage.getItem(LOCAL_STORAGE_KEY_DEPS);
+  if (data === null) {
+    return null;
+  }
+  const dependencies = JSON.parse(data);
+  return dependencies;
+};
+
+const storage = { setTasks, getTasks, setDependencies, getDependencies };
+export default storage;

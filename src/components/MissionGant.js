@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { BryntumGantt, BryntumProjectModel } from "@bryntum/gantt-react";
 import config from "./MissionGanttConfig.js";
 import "../styles/MissionGant.css";
-import * as storage from "../utils/persistance.js";
+import storage from "../utils/persistance.js";
 import missionTasks from "../_datasets/missionTasks.js";
 
 function MissionGant() {
@@ -13,17 +13,22 @@ function MissionGant() {
 
   useEffect(() => {
     // console.log("ganttRef", ganttRef.current.instance);
-    const tasksFromStorage = storage.get();
+    const tasksFromStorage = storage.getTasks();
     if (tasksFromStorage === null) {
-      storage.set(missionTasks.tasks);
+      storage.setTasks(missionTasks.tasks);
+      storage.setDependencies(missionTasks.dependencies);
     }
-    setTasks(storage.get());
+    setTasks(storage.getTasks());
+
+    const dependenciesFromStorage = storage.getDependencies();
+    if (dependenciesFromStorage === null) {
+      storage.setDependencies(missionTasks.dependencies);
+    }
+    setDependencies(storage.getDependencies());
   }, []);
 
   const handleChange = (evt) => {
     console.log(`MissionGant | handleChange: ${evt.action} - ${evt.type}`, evt);
-    // TODO - Perist date changes on storage
-
     if (evt.action === "remove") {
       const taskId = evt.records[0].originalData.id;
       const newTasks = tasks.filter((ct) => ct.id !== taskId);
@@ -32,10 +37,14 @@ function MissionGant() {
           (c) => c.id !== taskId
         );
         setTasks(newTasks);
-        storage.set(newTasks);
+        storage.setTasks(newTasks);
       }
     }
-    if (evt.record) {
+    if (evt.action === "add") {
+      // TODO save to storage
+      console.log("ganttRef.current", ganttRef.current);
+    }
+    if (evt.action === "update" && evt.record) {
       // console.log(`Orginal data ${JSON.stringify(evt.record.originalData)}`);
       // console.log(`New data ${evt.record.data}`);
 
@@ -50,7 +59,7 @@ function MissionGant() {
       }
       // console.log("newTasks", newTasks);
       setTasks(newTasks);
-      storage.set(newTasks);
+      storage.setTasks(newTasks);
     }
   };
 
@@ -64,12 +73,26 @@ function MissionGant() {
     console.log(`Orginal data ${evt.taskRecord}`);
   };
 
+  const handleBeforeTaskDelete = (evt) => {
+    console.log("MissionGant | handleBeforeTaskDelete", evt);
+  };
+
+  const handleBeforeEventDelete = (evt) => {
+    console.log("MissionGant | handleBeforeEventDelete", evt);
+  };
+
   return (
     <>
-      <BryntumProjectModel tasks={tasks} dependencies={dependencies} ref={projectRef} />
+      <BryntumProjectModel
+        tasks={tasks}
+        dependencies={dependencies}
+        ref={projectRef}
+      />
       <BryntumGantt
         {...config}
         onDataChange={handleChange}
+        onBeforeTaskDelete={handleBeforeTaskDelete}
+        onBeforeEventDelete={handleBeforeEventDelete}
         onAfterTaskDrop={handleTaskDrop}
         onTaskClick={handleTaskClick}
         ref={ganttRef}
