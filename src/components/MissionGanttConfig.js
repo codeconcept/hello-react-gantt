@@ -1,10 +1,13 @@
 const ganttConfig = {
-  columns : [
-    { type : 'wbs' },
-    { type : 'name', width : 250 },
-    { type : 'startdate' },
-    { type : 'duration' },
+  columns: [
+    { type: "wbs" },
+    { type: "name", width: 250 },
+    { type: "startdate" },
+    { type: "duration" },
   ],
+  features: {
+    filter: true,
+  },
   listeners: {
     // catchAll: function (e) {
     //   console.log("listeners | catchAll", e.type, e);
