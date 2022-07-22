@@ -7,16 +7,48 @@ const ganttConfig = {
   ],
   taskRenderer({ taskRecord, renderData }) {
     console.log("taskRenderer", { taskRecord, renderData });
-    console.log('taskRecord.name', taskRecord.name);
-    if (taskRecord.name.toLocaleLowerCase().startsWith("important")) {
+    console.log("taskRecord.name", taskRecord.name);
+    if (taskRecord.name.toLocaleLowerCase().startsWith("important ")) {
       // make important task red
       renderData.style = "background-color: red;";
       // display the name in the task only if the task important
-      return taskRecord.name.split('important ')[1];
+      return taskRecord.name.split("important ")[1];
     }
   },
   features: {
     filter: true,
+    taskMenu: {
+      items: {
+        moveForward: {
+          text: 'Move 1 day ahead',
+          weight: 80,
+          onItem: ({ taskRecord }) => {
+            taskRecord.shift(1, 'day');
+          }
+        },
+        moveBackward: {
+          text: 'Move 1 day before',
+          weight: 90,
+          onItem: ({ taskRecord }) => {
+            taskRecord.shift(-1, 'day');
+          }
+        },
+        // Rename "Delete task" item
+        deleteTask: {
+          text: "Delete this guy",
+        },
+        // Rename "Edit task" item
+        editTask: {
+          text: "Update this guy",
+        },
+        add: {
+          menu: {
+            // Only added to the left grid as it's a filter
+            filterDateEquales: true
+          },
+        },
+      },
+    },
   },
   listeners: {
     // catchAll: function (e) {
@@ -29,9 +61,6 @@ const ganttConfig = {
       // TODO now we dispatch action to save event data
       console.log("listeners | afterEventSave", source);
     },
-    // dataChange: (data) => {
-    //   console.log("listeners | dataChange", data);
-    // },
   },
 };
 
