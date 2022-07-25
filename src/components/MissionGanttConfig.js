@@ -6,8 +6,8 @@ const ganttConfig = {
     { type: "duration" },
   ],
   taskRenderer({ taskRecord, renderData }) {
-    console.log("taskRenderer", { taskRecord, renderData });
-    console.log("taskRecord.name", taskRecord.name);
+    // console.log("taskRenderer", { taskRecord, renderData });
+    // console.log("taskRecord.name", taskRecord.name);
     if (taskRecord.name.toLocaleLowerCase().startsWith("important ")) {
       // make important task red
       renderData.style = "background-color: red;";
@@ -20,18 +20,18 @@ const ganttConfig = {
     taskMenu: {
       items: {
         moveForward: {
-          text: 'Move 1 day ahead',
+          text: "Move 1 day ahead",
           weight: 80,
           onItem: ({ taskRecord }) => {
-            taskRecord.shift(1, 'day');
-          }
+            taskRecord.shift(1, "day");
+          },
         },
         moveBackward: {
-          text: 'Move 1 day before',
+          text: "Move 1 day before",
           weight: 90,
           onItem: ({ taskRecord }) => {
-            taskRecord.shift(-1, 'day');
-          }
+            taskRecord.shift(-1, "day");
+          },
         },
         // Rename "Delete task" item
         deleteTask: {
@@ -44,7 +44,7 @@ const ganttConfig = {
         add: {
           menu: {
             // Only added to the left grid as it's a filter
-            filterDateEquales: true
+            filterDateEquales: true,
           },
         },
       },
@@ -52,30 +52,30 @@ const ganttConfig = {
     taskEdit: {
       items: {
         dangerZone: {
-          title: 'Danger Zone',
+          title: "Danger Zone",
           weight: 90,
           items: {
             dangerName: {
-              type: 'textfield',
+              type: "textfield",
               weight: 100,
-              label: 'Danger Name',
+              label: "Danger Name",
               // could be any task field like name, id, duration, percentDone
-              name: 'name'
+              name: "name",
             },
             dangerProbability: {
-              type: 'radiogroup',
-              name: 'probability',
-              label: 'Probability',
+              type: "radiogroup",
+              name: "probability",
+              label: "Probability",
               options: {
-                hight: 'High',
-                medium: 'Medium',
-                mow: 'Low'
-              }
-            }
-          }
-        }
-      }
-    }
+                hight: "High",
+                medium: "Medium",
+                mow: "Low",
+              },
+            },
+          },
+        },
+      },
+    },
   },
   listeners: {
     // catchAll: function (e) {
