@@ -1,3 +1,5 @@
+import "../components/GanttToolbar";
+
 const ganttConfig = {
   columns: [
     { type: "wbs" },
@@ -6,15 +8,7 @@ const ganttConfig = {
     { type: "duration" },
   ],
   tbar: {
-    items: [
-      {
-        ref: "undoRedo",
-        type: "undoredo",
-        items: {
-          transactionsCombo: null,
-        },
-      },
-    ],
+    type: "gantttoolbar",
   },
   taskRenderer({ taskRecord, renderData }) {
     // console.log("taskRenderer", { taskRecord, renderData });
@@ -96,7 +90,6 @@ const ganttConfig = {
       console.log("listeners | beforeLoadApply", response);
     },
     afterEventSave: (source) => {
-      // TODO now we dispatch action to save event data
       console.log("listeners | afterEventSave", source);
     },
   },
