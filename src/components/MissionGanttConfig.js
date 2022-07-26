@@ -5,6 +5,17 @@ const ganttConfig = {
     { type: "startdate" },
     { type: "duration" },
   ],
+  tbar: {
+    items: [
+      {
+        ref: "undoRedo",
+        type: "undoredo",
+        items: {
+          transactionsCombo: null,
+        },
+      },
+    ],
+  },
   taskRenderer({ taskRecord, renderData }) {
     // console.log("taskRenderer", { taskRecord, renderData });
     // console.log("taskRecord.name", taskRecord.name);
