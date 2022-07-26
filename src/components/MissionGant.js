@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { BryntumGantt, BryntumProjectModel } from "@bryntum/gantt-react";
+
+// import { LocaleManager } from "@bryntum/gantt";
+// import En from "@bryntum/gantt/locales/gantt.locale.En";
+
 import config from "./MissionGanttConfig.js";
 import "../styles/MissionGant.css";
 import storage from "../utils/persistance.js";
@@ -10,13 +14,15 @@ function MissionGant() {
   const projectRef = useRef();
   const [tasks, setTasks] = useState(missionTasks.tasks);
   const [dependencies, setDependencies] = useState(missionTasks.dependencies);
+  // const [chosenLocale, setChosenLocale] = useState(En);
+
+  // LocaleManager.locale = chosenLocale;
 
   useEffect(() => {
-    // console.log("ganttRef", ganttRef.current.instance);
-
     // Why is projectRef.current.instance null here
     // but an object in the browser console?
     // console.log(`projectRef.current.instance ${projectRef.current.instance}`);
+
     const tasksFromStorage = storage.getTasks();
     if (tasksFromStorage === null) {
       storage.setTasks(missionTasks.tasks);
@@ -34,7 +40,7 @@ function MissionGant() {
     // but when checking what's in the queue with
     // bryntum.query('gantt').project.stm.queue
     // after 2 edits, we get an Array of two elements (good)
-    // both elements being null Array[(null, null)]   (bad) 
+    // both elements being null Array[(null, null)]   (bad)
     // Despite that, undo and redo works fine when used from the UI
     const { project } = ganttRef.current.instance;
     project.stm.enable();
@@ -42,14 +48,6 @@ function MissionGant() {
 
   const handleChange = (evt) => {
     console.log(`MissionGant | handleChange: ${evt.action} - ${evt.type}`, evt);
-    console.log(`projectRef.current.instance ${projectRef.current.instance}`);
-    // console.log(`ganttRef.current.instance ${Object.keys(ganttRef.current.instance)}`);
-    console.log(`crudManager`, ganttRef.current.instance.crudManager);
-    console.log(`_taskStore`, ganttRef.current.instance._taskStore);
-    // taskRendering
-    console.log(`taskRendering`, ganttRef.current.instance.taskRendering);
-    // newTaskDefaults
-    console.log(`newTaskDefaults`, ganttRef.current.instance.newTaskDefaults);
 
     if (evt.action === "remove") {
       const taskId = evt.records[0].originalData.id;
@@ -67,10 +65,6 @@ function MissionGant() {
       console.log("ganttRef.current", ganttRef.current);
     }
     if (evt.action === "update" && evt.record) {
-      console.log(`ganttRef.current.instance ${ganttRef.current.instance}`);
-      // console.log(`Orginal data ${JSON.stringify(evt.record.originalData)}`);
-      // console.log(`New data ${evt.record.data}`);
-
       // Save updated tasks to storage
       let newTasks = tasks.map((t) =>
         t.id === evt.record.id ? evt.record.data : t

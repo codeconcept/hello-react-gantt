@@ -1,4 +1,6 @@
-import { Toolbar } from "@bryntum/gantt";
+import { Toolbar, LocaleManager } from "@bryntum/gantt";
+import SvSE from "@bryntum/gantt/locales/gantt.locale.SvSE";
+import En from "@bryntum/gantt/locales/gantt.locale.En";
 
 export default class GanttToolbar extends Toolbar {
   static get type() {
@@ -49,6 +51,42 @@ export default class GanttToolbar extends Toolbar {
           },
           onChange: "up.onFilterChange",
         },
+        {
+          type: "buttonGroup",
+          toggleGroup: true,
+          items: [
+            {
+              text: "English",
+              ref: "english",
+              pressed: true,
+              ganttConfig: {
+                rowHeight: 70,
+                barMargin: 5,
+              },
+            },
+            {
+              text: "Swedish",
+              ref: "swedish",
+              ganttConfig: {
+                rowHeight: 45,
+                barMargin: 10,
+              },
+            },
+          ],
+          onAction(action) {
+            const language =
+              action.source.currentElement.attributes["data-ref"].value;
+            console.log(`language ${language}`);
+            if (language === "english") {
+              console.log('anguage === "english"');
+              LocaleManager.locale = En;
+            }
+            if (language === "swedish") {
+              console.log('anguage === "swedish"');
+              LocaleManager.locale = SvSE;
+            }
+          },
+        },
       ],
     };
   }
@@ -65,6 +103,11 @@ export default class GanttToolbar extends Toolbar {
     }
   }
 }
+
+// LocaleManager.on("locale", (evt) => {
+//   console.log("LocaleManager evt", evt);
+//   // LocaleManager.locale = chosenLocale;
+// });
 
 // Register this widget type with its Factory
 GanttToolbar.initClass();
